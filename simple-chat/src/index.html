@@ -31,27 +31,53 @@
             }
         </style>
         <form class="form" action="/">
-            <div class="message"></div>
+            <div class="messages-container"></div>
             <input class="form-input" name="message-text" placeholder="Введите сообщение" type="text">
         </form>
         <script>
             const form = document.querySelector('form');
             const input = document.querySelector('.form-input');
-            const message = document.querySelector('.message');
+            const messagesContainer = document.querySelector('.messages-container');
 
-            form.addEventListener('submit', this.handleSubmit.bind(this));
-            form.addEventListener('keypress', this.handleKeyPress.bind(this));
+            form.addEventListener('submit', handleSubmit);
 
-            function handleSubmit (event) {
+            function getMessages() {
+                return JSON.parse(localStorage.getItem('messages') || '[]');
+            }
+
+            function saveMessages(messages) {
+                localStorage.setItem('messages', JSON.stringify(messages));
+            }
+
+            function renderMessages() {
+                const messages = getMessages();
+                messagesContainer.innerHTML = '';
+                messages.forEach(text => {
+                    const div = document.createElement('div');
+                    div.className = 'message';
+                    div.textContent = text;
+                    messagesContainer.appendChild(div);
+                });
+            }
+
+            function handleSubmit(event) {
                 event.preventDefault();
-                message.innerText = input.value;
+                const text = input.value.trim();
+                if (text === '') return;
+
+                const messages = getMessages();
+                messages.push(text);
+                saveMessages(messages);
+
+                const div = document.createElement('div');
+                div.className = 'message';
+                div.textContent = text;
+                messagesContainer.appendChild(div);
+
+                input.value = '';
             }
 
-            function handleKeyPress (event) {
-                if (event.keyCode === 13) {
-                    form.dispatchEvent(new Event('submit'));
-                }
-            }
+            renderMessages();
         </script>
     </body>
 </html>
