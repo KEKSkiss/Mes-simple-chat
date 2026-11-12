@@ -82,11 +82,45 @@
             .form-input::placeholder {
                 color: #9e9e9e;
             }
+
+            .form-actions {
+                display: flex;
+                gap: 8px;
+                padding: 12px 16px;
+                border-top: 1px solid #e0e0e0;
+                background: #fff;
+            }
+
+            .btn-send {
+                flex: 1;
+                padding: 12px 24px;
+                background: #1976d2;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+            .btn-send:hover {
+                background: #1565c0;
+            }
+
+            .btn-send:active {
+                background: #0d47a1;
+            }
+
+
         </style>
         <form class="form" action="/">
-            <input class="form-input" id="author-input" name="author" placeholder="Ваше имя" type="text">
             <div class="messages-container"></div>
-            <input class="form-input" id="message-input" name="message-text" placeholder="Введите сообщение" type="text">
+            <div class="form-actions">
+                <input class="form-input" id="author-input" name="author" placeholder="Ваше имя" type="text" style="flex: 1; border-radius: 8px 0 0 8px;">
+                <input class="form-input" id="message-input" name="message-text" placeholder="Введите сообщение" type="text" style="flex: 2; border-radius: 0 8px 8px 0;">
+                <button class="btn-send" id="send-btn" type="submit">Отправить сообщение</button>
+            </div>
         </form>
         <script>
             const form = document.querySelector('form');
@@ -98,6 +132,11 @@
             authorInput.value = localStorage.getItem('author') || '';
 
             form.addEventListener('submit', handleSubmit);
+            messageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    handleSubmit(e);
+                }
+            });
 
             function getMessages() {
                 return JSON.parse(localStorage.getItem('messages') || '[]');
