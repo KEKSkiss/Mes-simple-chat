@@ -113,23 +113,16 @@ body {
 }
 
 .btn-send {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    padding: 0;
+    padding: 12px 24px;
     background: var(--bg-btn);
     color: var(--bg-white);
     border: none;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
-}
-
-.btn-send .material-icons {
-    font-size: 24px;
+    white-space: nowrap;
 }
 
 .btn-send:hover {
